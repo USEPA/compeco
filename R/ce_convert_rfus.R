@@ -274,6 +274,7 @@ ce_create_std_curve <- function(...){
 #' @keywords internal
 ce_convert_to_conc <- function(module = c("ext_chla", "invivo_chla", "phyco"), 
                                rfus, std_curve, blank_correction = TRUE){
+  
   module <- match.arg(module)
   rfus <- dplyr::mutate(rfus, 
                         variable = dplyr::case_when(lab_reps == "blank" ~ "blank", 
@@ -286,7 +287,8 @@ ce_convert_to_conc <- function(module = c("ext_chla", "invivo_chla", "phyco"),
     blanks <- dplyr::group_by(blanks, waterbody, site, date)
     blanks <- dplyr::summarize(blanks , blank_cor = mean(value))
     blanks <- dplyr::ungroup(blanks)
-    blanks <- dplyr::select(blanks, waterbody, date, blank_cor)
+    blanks <- dplyr::select(blanks, waterbody, site, date, blank_cor)
+    blanks <- unique(blanks)
     conc <- dplyr::filter(rfus, variable != "blank")
     conc <- dplyr::left_join(conc, blanks)
     if(blank_correction){
