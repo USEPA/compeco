@@ -1,6 +1,6 @@
 Package: compeco
 Title: ACESD computational ecology HABlab package
-Version: 0.0.6.9999
+Version: 0.0.7.9999
 Authors@R: c(person("Jeffrey", "Hollister", email = "hollister.jeff@epa.gov", 
                   role = c("aut", "cre"), 
                   comment = c(ORCID = "0000-0002-9254-9740")),

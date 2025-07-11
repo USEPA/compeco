@@ -118,7 +118,7 @@ ce_convert_rfus <- function(rfus,
   
   # This is averaging ALL solid standards 
   # Need to figure out how to average solid std - per run - and output those drifts for those runs
-  browser()
+  
   sample_solid_std <- mean(rfus$value[grepl("solid std", rfus$site)], na.rm = TRUE)
   
   # Check solid standard drift
