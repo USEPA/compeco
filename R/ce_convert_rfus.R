@@ -74,12 +74,15 @@ ce_convert_rfus <- function(rfus,
       fluorometer <- fluorometer_arg
     } else if(fluorometer_arg != fluorometer_df){
       if(!fluorometer_df %in% c("g04", "m07")){
-        stop("Fluorometer listed in the RFU data set is not a valid choice.")
+        warning("Fluorometer listed in the RFU data set is not a valid choice.
+                Using the fluorometer passed in function.")
+        fluorometer <- fluorometer_arg
+      } else{
+        warning("The fluorometer listed in the input RFU data set does not
+                match the fluorometer passed in the function. Using the 
+                fluorometer recorded in the dataset.")
+        fluorometer <- fluorometer_df
       }
-      warning("The fluorometer listed in the input RFU data set does not
-              match the fluorometer passed in the function. Using the 
-              fluorometer recorded in the dataset.")
-      fluorometer <- fluorometer_df
     } else {
       fluorometer <- fluorometer_arg
     }
