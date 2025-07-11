@@ -66,7 +66,7 @@ ce_convert_rfus <- function(rfus,
     rfus <- filter(rfus, !is.na(fluorometer))
     fluorometer_df <- tolower(unique(rfus$fluorometer))  
   } 
-  
+   
   if(exists("fluorometer_df")){
     if(length(fluorometer_df) > 1){
       warning("Multiple fluorometers are listed in the input RFU data set. 
