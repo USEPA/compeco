@@ -61,11 +61,25 @@ ce_convert_rfus <- function(rfus,
   # Drop rows with no fluorometer listed - can't convert without that info.
   
   rfus <- filter(rfus, !is.na(value))
+  fluorometer_arg <- match.arg(fluorometer)
   if("fluorometer" %in% names(rfus)){
     rfus <- filter(rfus, !is.na(fluorometer))
-    fluorometer <- tolower(unique(rfus$fluorometer))  
-  } else {
-    fluorometer <- match.arg(fluorometer)
+    fluorometer_df <- tolower(unique(rfus$fluorometer))  
+  } 
+  
+  if(exists("fluorometer_df")){
+    if(length(fluorometer_df) > 1){
+      warning("Multiple fluorometers are listed in the input RFU data set. 
+              Using the fluorometer passed in function.")
+      fluorometer <- fluorometer_arg
+    } else if(fluorometer_arg != fluorometer_df){
+      warning("The fluorometer are listed in the input RFU data set does not
+              match the fluorometer passed in the function. Using the 
+              fluorometer recorded in the dataset.")
+      fluorometer <- fluorometer_df
+    } else {
+      fluorometer <- fluorometer_arg
+    }
   }
   
   day_na <- any(is.na(rfus$day))
@@ -102,6 +116,9 @@ ce_convert_rfus <- function(rfus,
   miss_names <- setdiff(names_to_check, names(rfus))
   rfus[miss_names] <- NA
   
+  # This is averaging ALL solid standards 
+  # Need to figure out how to average solid std - per run - and output those drifts for those runs
+  browser()
   sample_solid_std <- mean(rfus$value[grepl("solid std", rfus$site)], na.rm = TRUE)
   
   # Check solid standard drift
