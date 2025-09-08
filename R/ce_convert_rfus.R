@@ -315,7 +315,7 @@ ce_convert_to_conc <- function(module = c("ext_chla", "invivo_chla", "phyco"),
     conc <- dplyr::filter(rfus, variable != "blank")
     conc <- dplyr::left_join(conc, blanks)
     if(blank_correction){
-      if(any(is.na(conc$blank_cor))){
+      if(any(is.na(conc$blank_cor[conc$site != "solid std"]))){
         conc <- mutate(conc, blank_cor = case_when(is.na(blank_cor) ~
                                                      0,
                                                    TRUE ~ blank_cor))
