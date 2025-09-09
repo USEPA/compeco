@@ -103,7 +103,7 @@ ce_convert_rfus <- function(rfus,
     std_curve <- list(std_curve = conversion_slope, solid_std = NA)
   }
   
-  
+
   if("dup" %in% names(rfus)){
     rfus <- dplyr::rename(rfus, field_dups = dup)
   }
@@ -113,8 +113,14 @@ ce_convert_rfus <- function(rfus,
   if("dups" %in% names(rfus)){
     rfus <- dplyr::rename(rfus, field_dups = dups)
   }
+  
   if("reps" %in% names(rfus)){ 
-    rfus <- dplyr::rename(rfus, lab_reps = reps)
+    if("lab_reps" %in% names(rfus)){
+      rfus <- mutate(rfus, lab_reps = reps) |>
+        select(-reps)
+    } else {
+      rfus <- dplyr::rename(rfus, lab_reps = reps)
+    }
   }
   
   # Add missing columns
