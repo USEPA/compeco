@@ -270,6 +270,7 @@ ce_create_std_curve <- function(...){
     std_curve <- lm(conc ~ 0 + blanked_rfus, 
                     data = fluoro[fluoro$standard != "solid",])
   } else if(module == "phyco"){
+    
     fluoro <- dplyr::group_by(fluoro, standard)
     fluoro <- dplyr::summarize(fluoro, avg_value = mean(value), 
                                conc = mean(concentration))
